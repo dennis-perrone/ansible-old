@@ -1,0 +1,45 @@
+---
+
+#- name: Configure NetworkManager.conf to not manage DNS (set to 'dns=none')
+#  ini_file:
+  #    path: /etc/NetworkManager/NetworkManager.conf
+  #  state: present
+  #  no_extra_spaces: yes
+  #  section: main
+  #  option: dns
+  #  value: none
+  #  owner: root
+  #  group: root
+  #  mode: 0644
+  #  backup: yes
+  #notify:
+    #  - nm_reload
+
+    #- name: Deploy resolv.conf template
+    #template:
+      #src: roles/common/templates/resolv.conf.j2
+      #dest: /etc/resolv.conf
+      #owner: root
+      #group: root
+      #mode: 0644
+      #backup: yes
+      #notify:
+        #- nm_reload
+
+- name: Configure DNS servers to connect to ADUC
+  nmcli:
+    conn_name: eth0
+    state: present
+    type: ethernet
+    dns4: 
+      - "{{ ns01 }}"
+      - "{{ ns02 }}"
+    dns4_search:
+      - "{{ dns_search }}"
+      #notify:
+        #- nm_restart
+
+- name: Restart Network Manager
+  service:
+    name: NetworkManager
+    state: restarted

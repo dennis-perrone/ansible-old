@@ -1,0 +1,8 @@
+---
+# tasks file for rhel_ad
+
+- name: Calling the task to configure active directory integration
+  import_tasks: asset_config.yml
+
+- name: Calling the task to configure sudoers file
+  import_tasks: sudoers.yml

@@ -1,0 +1,24 @@
+---
+
+- name: Update all packages on asset.
+  yum:
+    name: '*'
+    state: latest
+
+- name: Check to see if asset needs to be rebooted (kernel updates).
+  shell: LAST_KERNEL=$(rpm -q --last kernel | awk 'NR==1{sub(/kernel-/,""); print $1}'); CURRENT_KERNEL=$(uname -r); if [ $LAST_KERNEL != $CURRENT_KERNEL ]; then echo 'Reboot Required'; else echo 'Reboot not required.'; fi
+  ignore_errors: true
+  register: reboot_required
+  changed_when: false
+
+- name: Rebooting asset.
+  reboot:
+    reboot_timeout: 600
+  when: reboot_required.stdout == "Reboot Required"
+
+- name: Install EPEL and Python3.
+  yum:
+    name:
+      - epel-release
+      - python3
+    state: present

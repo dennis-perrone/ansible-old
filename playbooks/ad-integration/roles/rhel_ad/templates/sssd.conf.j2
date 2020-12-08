@@ -1,0 +1,55 @@
+# This file was generated via Ansible Jinja2 Template
+
+[sssd]
+services = nss, pam, sudo, autofs
+config_file_version = 2
+domains = AD.{{ domain_krb5 }}
+
+[domain/AD.{{ domain_krb5 }}]
+id_provider = ad
+override_homedir = /home/%d/%u
+debug_level =0
+
+[domain/LDAP]
+id_provider = ldap
+sudo_provider = ldap
+ldap_uri = ldap://{{ fqdn }}
+ldap_sudo_search_base = {{ ldap_ou }}
+ldap_sudo_full_refresh_interval = 86400
+ldap_sudo_smart_refresh_interval = 3600
+autofs_provider = ldap
+ldap_autofs_search_base = cn=automount,{{ ldap_ou }}
+ldap_autofs_map_object_class = automountMap
+ldap_autofs_entry_object_class = automount
+ldap_autofs_entry_key = automountKey
+ldap_autofs_entry_value = automountInformaiton
+
+[domain/IDM]
+id_provider = ipa
+ipa_domain = {{ fqdn }}
+ipa_server = ipa.{{ fqdn }}
+ldap_tls_cacert = /cet/ipa/ca.cert
+sudo_provider = ldap
+ldap_uri = ldap://ipa.{{ fqdn }}
+ldap_sudo_search_base = {{ ldap_ou }}
+ldap_sasl_mech = GSSAPI
+ldap_sasl_authid = host/hostname.{{ fqdn }}
+ldap_sasl_realm = {{ domain_krb5 }}
+kdb5_server = ipa.{{ fqdn }}
+
+[nss]
+override_shell = /bin/bash
+filter_groups = root
+filter_users = root
+entry_cache_timeout = 300
+entry_cache_nowait_percentage = 75
+
+[pam]
+offline_credentials_expiration = 2
+offline_failed_login_attempts = 3
+offline_failed_login_delay = 5
+
+[sudo]
+
+[autofs]
+

@@ -1,0 +1,8 @@
+---
+# tasks file for common
+
+- name: Calling the task to set patching baseline.
+  import_tasks: asset_update.yml
+
+- name: Calling the task to set the configuration baseline.
+  import_tasks: asset_config.yml

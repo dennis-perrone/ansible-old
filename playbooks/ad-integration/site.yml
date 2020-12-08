@@ -1,0 +1,8 @@
+---
+
+- name: Run roles to integrate hosts into active directory forst
+  hosts: all
+  become: true
+  roles:
+    - common
+    - rhel_ad
