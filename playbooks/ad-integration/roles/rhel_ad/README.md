@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role configured the client to be integrated into an existing AD forest.
 
 Requirements
 ------------

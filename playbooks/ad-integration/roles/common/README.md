@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role sets up the baseline for the client (end) machine
 
 Requirements
 ------------
