@@ -1,0 +1,71 @@
+---
+# tasks file for fedora
+
+- name: Import RPM Fusion GPG keys
+  rpm_key:
+    state: present
+    key: "{{ item }}"
+  with_items:
+    - "{{ fedora_fusion_free_gpg }}"
+    - "{{ fedora_fusion_nonfree_gpg }}"
+  tags:
+    - baseline
+
+- name: Configure RPM Fusion repositories
+  dnf:
+    name:
+      - '{{ fedora_fusion_free_repo }}'
+      - '{{ fedora_fusion_nonfree_repo }}'
+    state: present
+  tags:
+    - baseline
+
+- name: Import Microsoft VisualStudio Code GPG keys
+  rpm_key:
+    state: present
+    key: "{{ item }}"
+  with_items:
+    - "{{ ms_vscode_gpg }}"
+  tags:
+    - baseline
+
+- name: Configure Microsoft VisualStudio Code repository
+  shell: "{{ ms_vscode_repo }}"
+  tags:
+    - baseline
+
+- name: Update all packages
+  dnf:
+    name: "*"
+    state: latest
+  tags:
+    - baseline
+
+- name: Install baseline packages
+  dnf:
+    name: "{{ baseline_packages }}"
+    state: present
+  tags:
+    - baseline
+
+- name: Install Gnome packages
+  dnf:
+    name: "{{ gnome_packages }}"
+    state: present
+  tags:
+    - gnome
+
+- name: Install packages for usability
+  dnf:
+    name: "{{ workflow_packages }}"
+    state: present
+  tags:
+    - baseline
+
+- name: Enable Gnome Display Manager
+  file:
+    src: /usr/lib/systemd/system/graphical.target
+    dest: /etc/systemd/system/default.target
+    state: link
+  tags:
+    - gnome

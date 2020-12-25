@@ -1,0 +1,13 @@
+---
+ 
+- name: Run roles for specific distrubtions
+  hosts: all
+  become: true
+  roles:
+    - common
+  vars_files:
+    - ./roles/arch/vars/main.yml
+    - ./roles/centos/vars/main.yml
+    - ./roles/common/vars/main.yml
+    - ./roles/fedora/vars/main.yml
+    - ./roles/ubuntu/vars/main.yml
