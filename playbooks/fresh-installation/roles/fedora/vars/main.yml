@@ -38,3 +38,9 @@ workflow_packages:
   - git
   - neofetch
   - keepassxc
+  - vim-enhanced
+  - "@virtualization"
+  - virt-manager
+  - xdg-user-dirs
+  - ffmpeg
+  - youtube-dl
