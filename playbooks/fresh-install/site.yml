@@ -1,0 +1,8 @@
+---
+
+- name: Execute tasks that are distribution agnostic.
+  hosts: all
+  become: true
+  roles:
+    - common
+

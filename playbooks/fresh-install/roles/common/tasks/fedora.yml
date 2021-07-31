@@ -1,0 +1,47 @@
+---
+# tasks file for common
+
+- name: Make sure it's hitting from fedora task
+  ansible.builtin.debug:
+    msg: "This is from the fedora task."
+
+- name: Import GPG keys for required repositories
+  ansible.builtin.rpm_key:
+    key: "{{ item }}"
+  with_items:
+    - "{{ rpmfusion_free_gpg_key }}"
+    - "{{ rpmfusion_nonfree_gpg_key }}"
+    - "{{ ms_vscode_gpg_key }}"
+
+- name: Configure RPM Fusion repositories
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ rpmfusion_free_repo }}" 
+    - "{{ rpmfusion_nonfree_repo }}"
+
+- name: Configure Microsoft VS Code repository
+  ansible.builtin.copy:
+    src: ../files/vscode.repo
+    dest: /etc/yum.repos.d/vscode-test.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Update all packages.
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: Install desired default packages
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ install_packages }}"
+
+- name: Default package removal
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ uninstall_packages }}"

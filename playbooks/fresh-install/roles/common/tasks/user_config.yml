@@ -1,0 +1,32 @@
+---
+# tasks file for user configs
+
+- name: Create Python virtual environment
+  ansible.builtin.command:
+    cmd: "/usr/bin/virtualenvwrapper.sh workon"
+
+- name: Remove stock i3 configuration directory
+  ansible.builtin.file:
+    path: "{{ i3_conf }}"
+    state: absent
+
+- name: Create symbolic links to dot configurations
+  become: yes
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ item.path }}'
+    dest: '{{ home_dir }}/{{ user }}/{{ item.dest }}'
+    state: link
+    force: yes
+  with_items:
+    - { path: "{{ git_private_repos[0] }}/{{ bashrc }}", dest: ".bashrc" }
+    - { path: "{{ git_private_repos[0] }}/{{ bash_profile }}", dest: ".bash_profile" }
+    - { path: "{{ git_private_repos[0] }}/i3", dest: "{{ i3_conf }}" }
+    - { path: "{{ git_private_repos[0] }}/i3blocks", dest: "{{ i3blocks_conf }}" }
+    - { path: "{{ git_private_repos[0] }}/kitty", dest: "{{ kitty_conf }}" }
+    - { path: "{{ git_private_repos[0] }}/picom", dest: "{{ picom_conf }}" }
+    - { path: "{{ git_private_repos[2] }}/{{ taskrc }}", dest: ".taskrc" }
+    - { path: "{{ git_private_repos[2] }}/{{ task_dir }}", dest: ".task" }
+    - { path: "{{ git_public_repos[2] }}/bash", dest: "{{ dirs[2]}}/bash" }
+    - { path: "{{ git_public_repos[2] }}/powershell", dest: "{{ dirs[2]}}/powershell" }
+    - { path: "{{ git_public_repos[2] }}/python", dest: "{{ dirs[2]}}/python" }

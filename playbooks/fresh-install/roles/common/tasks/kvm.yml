@@ -1,0 +1,30 @@
+---
+# tasks file for kvm
+
+- name: Install KVM packages
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ virt_packages }}"
+  changed_when: true
+  notify:
+    - libvirtd_enabled
+    - libvirtd_started
+
+- name: Create directories
+  become: yes
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: '{{ home_dir }}/{{ user }}/{{ dirs[1] }}/{{ item }}'
+    state: directory
+    mode: '0755'
+  with_items:
+    - "{{ virt_dirs }}"
+
+- name: Configure Polkit to allow wheel group to use virt machines.
+  ansible.builtin.copy:
+    src: ../files/80-libvirt-manage.rules
+    dest: /etc/polkit-1/rules.d/80-libvirt-manage.rules
+    owner: root
+    group: root
+    mode: '0644'

@@ -1,0 +1,12 @@
+---
+# handlers file for common
+
+- name: libvirtd_enabled
+  ansible.builtin.systemd:
+    name: libvirtd.service
+    enabled: yes
+
+- name: libvirtd_started
+  ansible.builtin.systemd:
+    name: libvirtd.service
+    state: restarted
