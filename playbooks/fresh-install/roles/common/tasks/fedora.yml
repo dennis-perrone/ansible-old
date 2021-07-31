@@ -12,6 +12,7 @@
     - "{{ rpmfusion_free_gpg_key }}"
     - "{{ rpmfusion_nonfree_gpg_key }}"
     - "{{ ms_vscode_gpg_key }}"
+    - "{{ brave_browser_gpg_key }}"
 
 - name: Configure RPM Fusion repositories
   ansible.builtin.dnf:
@@ -21,18 +22,29 @@
     - "{{ rpmfusion_free_repo }}" 
     - "{{ rpmfusion_nonfree_repo }}"
 
-- name: Configure Microsoft VS Code repository
+#- name: Configure Microsoft VS Code repository
+#  ansible.builtin.copy:
+#    src: ../files/vscode.repo
+#    dest: /etc/yum.repos.d/vscode.repo
+#    owner: root
+#    group: root
+#    mode: '0644'
+
+- name: Configure other repositories
   ansible.builtin.copy:
-    src: ../files/vscode.repo
-    dest: /etc/yum.repos.d/vscode-test.repo
+    src: ../files/{{ item }}.repo
+    dest: /etc/yum.repos.d/{{ item }}.repo
     owner: root
     group: root
     mode: '0644'
+  with_items:
+    - brave_browser
+    - vscode
 
-- name: Update all packages.
-  ansible.builtin.dnf:
-    name: "*"
-    state: latest
+#- name: Update all packages.
+#  ansible.builtin.dnf:
+#    name: "*"
+#    state: latest
 
 - name: Install desired default packages
   ansible.builtin.dnf:

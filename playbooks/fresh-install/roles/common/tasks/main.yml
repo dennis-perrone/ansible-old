@@ -1,19 +1,19 @@
 ---
 # tasks file for common
 
-#- name: Create directories
-#  become: yes
-#  become_user: "{{ user }}"
-#  ansible.builtin.file:
-#    path: '{{ home_dir }}/{{ user }}/{{ item }}'
-#    state: directory
-#    mode: '0755'
-#  with_items:
-#    - "{{ dirs }}"
+- name: Create directories
+  become: yes
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: '{{ home_dir }}/{{ user }}/{{ item }}'
+    state: directory
+    mode: '0755'
+  with_items:
+    - "{{ dirs }}"
 
-#- name: Tasks for Fedora
-#  include_tasks: fedora.yml
-#  when: ansible_facts['distribution'] == "Fedora"
+- name: Tasks for Fedora
+  include_tasks: fedora.yml
+  when: ansible_facts['distribution'] == "Fedora"
 
 #- name: Tasks for Git configurations
 #  include_tasks: git.yml
@@ -21,5 +21,5 @@
 #- name: Tasks for KVM configurations
 #  include_tasks: kvm.yml
 
-- name: Tasks for user configurations
-  include_tasks: user_config.yml
+#- name: Tasks for user configurations
+#  include_tasks: user_config.yml

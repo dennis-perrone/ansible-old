@@ -37,15 +37,3 @@
 #    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ git_public_repos [1] }}'
 #    dest: '{{ home_dir}}/{{ user }}/{{ dirs[1] }}/{{ git_public_repos [1] }}'
 #    state: link
-
-- name: Create symbolic links to Git directories
-  become: yes
-  become_user: "{{ user }}"
-  ansible.builtin.file:
-    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ item.path }}'
-    dest: '{{ home_dir }}/{{ user }}/{{ item.dest }}'
-    state: link
-  with_items:
-    - { path: "{{ git_public_repos[0] }}", dest: "{{ dirs[1] }}/ansible_link" }
-    - { path: "{{ git_public_repos[1] }}", dest: "{{ dirs[2] }}/home_page" }
-    - { path: "{{ git_public_repos[1] }}", dest: "{{ dirs [2] }}/home_page_02" }
