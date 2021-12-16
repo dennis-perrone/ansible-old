@@ -30,10 +30,10 @@
 #    clone: yes
 #  with_items: "{{ git_private_repos }}"
 
-#- name: Create symbolic links to Git repositories
-#  become: yes
-#  become_user: "{{ user }}"
-#  ansible.builtin.file:
-#    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ git_public_repos [1] }}'
-#    dest: '{{ home_dir}}/{{ user }}/{{ dirs[1] }}/{{ git_public_repos [1] }}'
-#    state: link
+- name: Create symbolic links to Git repositories
+  become: yes
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ git_public_repos [1] }}'
+    dest: '{{ home_dir}}/{{ user }}/{{ dirs[1] }}/{{ git_public_repos [1] }}'
+    state: link

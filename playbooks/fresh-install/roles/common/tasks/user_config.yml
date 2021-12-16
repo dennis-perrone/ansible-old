@@ -25,6 +25,7 @@
     - { path: "{{ git_private_repos[0] }}/i3blocks", dest: "{{ i3blocks_conf }}" }
     - { path: "{{ git_private_repos[0] }}/kitty", dest: "{{ kitty_conf }}" }
     - { path: "{{ git_private_repos[0] }}/picom", dest: "{{ picom_conf }}" }
+    - { path: "{{ git_private_repos[0] }}/polybar", dest: "{{ picom_conf }}" }
     - { path: "{{ git_private_repos[2] }}/{{ taskrc }}", dest: ".taskrc" }
     - { path: "{{ git_private_repos[2] }}/{{ task_dir }}", dest: ".task" }
     - { path: "{{ git_public_repos[2] }}/bash", dest: "{{ dirs[2]}}/bash" }

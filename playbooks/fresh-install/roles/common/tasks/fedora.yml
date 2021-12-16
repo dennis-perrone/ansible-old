@@ -22,13 +22,13 @@
     - "{{ rpmfusion_free_repo }}" 
     - "{{ rpmfusion_nonfree_repo }}"
 
-#- name: Configure Microsoft VS Code repository
-#  ansible.builtin.copy:
-#    src: ../files/vscode.repo
-#    dest: /etc/yum.repos.d/vscode.repo
-#    owner: root
-#    group: root
-#    mode: '0644'
+- name: Configure Microsoft VS Code repository
+  ansible.builtin.copy:
+    src: ../files/vscode.repo
+    dest: /etc/yum.repos.d/vscode.repo
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Configure other repositories
   ansible.builtin.copy:
@@ -41,10 +41,18 @@
     - brave_browser
     - vscode
 
-#- name: Update all packages.
-#  ansible.builtin.dnf:
-#    name: "*"
-#    state: latest
+- name: Update all packages.
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: Default package removal
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+# Uncomment the following line once upgraded to Ansible 5.x
+#    allowweasing: yes
+  loop: "{{ uninstall_packages }}"
 
 - name: Install desired default packages
   ansible.builtin.dnf:
@@ -52,8 +60,8 @@
     state: latest
   loop: "{{ install_packages }}"
 
-- name: Default package removal
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    state: latest
-  loop: "{{ uninstall_packages }}"
+#- name: Default package removal
+#  ansible.builtin.dnf:
+#    name: "{{ item }}"
+#    state: latest
+#  loop: "{{ uninstall_packages }}"

@@ -4,4 +4,5 @@
 #localhost
 
 [fedora_boxes]
-fedora-vm
+#fedora-vm
+fedora-i3

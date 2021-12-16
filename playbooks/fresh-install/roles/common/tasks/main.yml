@@ -15,11 +15,11 @@
   include_tasks: fedora.yml
   when: ansible_facts['distribution'] == "Fedora"
 
-#- name: Tasks for Git configurations
-#  include_tasks: git.yml
+- name: Tasks for Git configurations
+  include_tasks: git.yml
 
 #- name: Tasks for KVM configurations
 #  include_tasks: kvm.yml
 
-#- name: Tasks for user configurations
-#  include_tasks: user_config.yml
+- name: Tasks for user configurations
+  include_tasks: user_config.yml
