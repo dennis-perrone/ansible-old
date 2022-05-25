@@ -1,2 +1,20 @@
 ---
 # tasks file for common
+
+# - name: Install Podman
+#   dnf:
+#     name: podman
+#     state: present
+
+# - name: Create Unifi Controller
+#   containers.podman.podman_container:
+#     name: unifi-controller
+#     image: {{ unifi_repo }}
+#     tag: latest
+#     ports: {{ exposed_ports }}
+
+- name: Create HTTPD container
+  containers.podman.podman_container:
+    name: web_server
+    image: "{{ httpd_repo }}"
+    state: started

@@ -1,0 +1,91 @@
+---
+# defaults file for common
+
+# Directories to create
+dirs:
+  - documents/programming
+  - .fonts
+  - .screenlayout
+
+# Directories to delete
+residual_dirs:
+    - Desktop
+    - Documents
+    - Downloads
+    - Music
+    - Pictures
+    - Public
+    - Templates
+    - Videos
+
+# Directories for virt machines and iso files
+virt_dirs:
+  - virtual-machines
+  - virtual-machines/iso-files
+  - virtual-machines/virtual-hdds
+
+
+# Packages: Install
+install_packages:
+  - acpi
+  - arandr
+  - autorandr
+  - code
+  - fontawesome-fonts
+  - git
+  - i3-gaps
+  - jetbrains-mono-fonts
+  - numlockx
+  - picom
+  - polkit
+  - polybar
+  - powerline
+  - powerline-fonts
+  - python3-pip
+  - python3-virtualenvwrapper
+  - redhat-display-fonts
+  - redhat-mono-fonts
+  - redhat-text-fonts
+  - rofi
+  - task
+  - vim
+  - vim-powerline
+  - xbindkeys
+  - zathura
+  - zathura-pdf-mupdf
+
+# Package Groups: Install
+virt_packages:
+  - '@Virtualization'
+
+# Packages: Uninstall
+uninstall_packages:
+  - azote
+  - rxvt-unicode
+
+# Repository GPG Keys
+rpmfusion_free_gpg_key: https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020
+rpmfusion_nonfree_gpg_key: https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020
+ms_vscode_gpg_key: https://packages.microsoft.com/keys/microsoft.asc
+brave_browser_gpg_key: https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+terraform_gpg_key: https://rpm.releases.hashicorp.com/gpg
+
+# Repositories
+rpmfusion_free_repo: https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ansible_distribution_major_version}}.noarch.rpm
+rpmfusion_nonfree_repo: https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ansible_distribution_major_version}}.noarch.rpm
+terraform_repo: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+
+# Fonts
+#font_isoevka: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
+
+# User configs from dots
+bashrc: bash/bashrc
+bash_profile: bash/bash_profile
+taskrc: .taskrc
+task_dir: .task
+i3_conf: .config/i3
+i3blocks_conf: .config/i3blocks
+kitty_conf: .config/kitty
+picom_conf: .config/picom
+polybar_conf: .config/polybar
+vim_conf: vim/vim

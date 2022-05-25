@@ -10,17 +10,27 @@
     path: "{{ i3_conf }}"
     state: absent
 
-- name: Create symbolic links to dot configurations
-  become: yes
+- name: Create symbolic links to bash configurations
+  become: true
   become_user: "{{ user }}"
   ansible.builtin.file:
-    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ item.path }}'
+    src: '{{ home_dir }}/{{ user }}/development/{{ item.path }}'
     dest: '{{ home_dir }}/{{ user }}/{{ item.dest }}'
     state: link
     force: yes
   with_items:
     - { path: "{{ git_private_repos[0] }}/{{ bashrc }}", dest: ".bashrc" }
     - { path: "{{ git_private_repos[0] }}/{{ bash_profile }}", dest: ".bash_profile" }
+
+- name: Create symbolic links to dot configurations
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    src: '{{ home_dir }}/{{ user }}/development/{{ item.path }}'
+    dest: '{{ home_dir }}/{{ user }}/{{ item.dest }}'
+    state: link
+    force: yes
+  with_items:
     - { path: "{{ git_private_repos[0] }}/i3", dest: "{{ i3_conf }}" }
     - { path: "{{ git_private_repos[0] }}/i3blocks", dest: "{{ i3blocks_conf }}" }
     - { path: "{{ git_private_repos[0] }}/kitty", dest: "{{ kitty_conf }}" }
@@ -28,6 +38,25 @@
     - { path: "{{ git_private_repos[0] }}/polybar", dest: "{{ picom_conf }}" }
     - { path: "{{ git_private_repos[2] }}/{{ taskrc }}", dest: ".taskrc" }
     - { path: "{{ git_private_repos[2] }}/{{ task_dir }}", dest: ".task" }
-    - { path: "{{ git_public_repos[2] }}/bash", dest: "{{ dirs[2]}}/bash" }
-    - { path: "{{ git_public_repos[2] }}/powershell", dest: "{{ dirs[2]}}/powershell" }
-    - { path: "{{ git_public_repos[2] }}/python", dest: "{{ dirs[2]}}/python" }
+    - { path: "{{ git_private_repos[0] }}/{{ vim_conf }}", dest: ".vim" }
+  
+- name: Create swapfiles directory within vim config
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: '{{ home_dir }}/{{ user }}/.vim/swapfiles'
+    state: directory
+    mode: '0775'
+
+- name: Create symbolic links to scripting directory
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    src: '{{ home_dir }}/{{ user }}/development/{{ item.path }}'
+    dest: '{{ home_dir }}/{{ user }}/{{ item.dest }}'
+    state: link
+    force: yes
+  with_items:
+    - { path: "{{ git_public_repos[2] }}/bash", dest: "{{ dirs[0]}}/bash" }
+    - { path: "{{ git_public_repos[2] }}/powershell", dest: "{{ dirs[0]}}/powershell" }
+    - { path: "{{ git_public_repos[2] }}/python", dest: "{{ dirs[0]}}/python" }

@@ -1,2 +1,7 @@
 ---
 
+- name: Setting up home infrastructure
+  hosts: all
+  become: true
+  roles:
+    - common

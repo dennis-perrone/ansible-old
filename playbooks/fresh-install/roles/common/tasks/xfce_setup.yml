@@ -1,0 +1,25 @@
+---
+# xfce tasks file for common
+
+- name: Create XFCE theme directory
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.file:
+    path: '{{ home_dir }}/{{ user }}/.local/xfce4/terminal'
+    state: directory
+    mode: '0755'
+
+# Catppuccin Github: https://github.com/catppuccin/xfce4-terminal
+- name: Add Catppuccin theme to xfce terminal
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: ../files/Catppuccin.theme
+    dest: "{{ home_dir }}/{{ user }}/.local/xfce4/terminal/colorschemes"
+
+- name: Copy XFCE terminal config file
+  become: true
+  become_user: "{{ user }}"
+  ansible.builtin.copy:
+    src: ../files/xfce4_terminalrc
+    dest: "{{ home_dir }}/{{ user }}/.config/xfce4/terminal/terminalrc"

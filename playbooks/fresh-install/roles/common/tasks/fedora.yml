@@ -1,5 +1,5 @@
 ---
-# tasks file for common
+# tasks file for fedora
 
 - name: Make sure it's hitting from fedora task
   ansible.builtin.debug:
@@ -40,29 +40,21 @@
   with_items:
     - brave_browser
     - vscode
-    - terraform
 
 - name: Update all packages.
   ansible.builtin.dnf:
     name: "*"
     state: latest
 
-- name: Default package removal
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    state: latest
-# Uncomment the following line once upgraded to Ansible 5.x
-#    allowweasing: yes
-  loop: "{{ uninstall_packages }}"
-
 - name: Install desired default packages
   ansible.builtin.dnf:
     name: "{{ item }}"
     state: latest
+    allowerasing: yes
   loop: "{{ install_packages }}"
 
-#- name: Default package removal
-#  ansible.builtin.dnf:
-#    name: "{{ item }}"
-#    state: latest
-#  loop: "{{ uninstall_packages }}"
+- name: Default package removal
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ uninstall_packages }}"

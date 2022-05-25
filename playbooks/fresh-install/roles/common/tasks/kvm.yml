@@ -12,7 +12,7 @@
     - libvirtd_started
 
 - name: Create directories
-  become: yes
+  become: true
   become_user: "{{ user }}"
   ansible.builtin.file:
     path: '{{ home_dir }}/{{ user }}/{{ dirs[1] }}/{{ item }}'

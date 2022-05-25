@@ -1,8 +1,13 @@
 # This is the production inventory file.
 
-[local_host]
-localhost
+# This is the production inventory file.
+
+# [local_host]
+# localhost
 
 #[fedora_boxes]
 #fedora-vm
 #fedora-i3
+
+[fedora_boxes]
+fedora-ansible 

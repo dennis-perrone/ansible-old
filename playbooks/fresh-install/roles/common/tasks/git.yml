@@ -1,39 +1,41 @@
 ---
 # git tasks file for common
 
-- name: Set Git username
-  become: yes
+- name: Set global Git configurations
+  become: true
   become_user: "{{ user }}"
-  ansible.builtin.command:
-    cmd: "{{ item }}"
-  with_items:
-    - git config --global user.name "{{ git_user_name }}"
-    - git config --global email.address "{{ git_user_email }}"
+  git_config:
+    name: "{{ item.git }}"
+    scope: global
+    value: "{{ item.value }}"
+  loop:
+    - { git: user.name, value: "{{ git_user_name }}" }
+    - { git: user.email, value: "{{ git_user_email }}" }
+
 
 - name: Clone public GitHub repositories
-  become: yes
+  become: true
   become_user: "{{ user }}"
   ansible.builtin.git:
     repo: https://github.com/{{ git_user_name }}/{{ item }}.git
-    #repo: git@github.com:{{ git_user_name }}/{{ item }}.git
-    dest: ~/development/{{ item }}
+    dest: "{{ home_dir }}/{{ user }}/development/{{ item }}"
     clone: yes
   with_items: "{{ git_public_repos }}"
 
-#- name: Clone private GitHub repositories
+# - name: Clone private GitHub repositories
 #  become: yes
 #  become_user: "{{ user }}"
 #  ansible.builtin.git:
 #    repo: https://github.com/{{ git_user_name }}/{{ item }}.git
-    #repo: git@github.com:{{ git_user_name }}/{{ item }}.git
+#     repo: git@github.com:{{ git_user_name }}/{{ item }}.git
 #    dest: ~/development/{{ item }}
 #    clone: yes
 #  with_items: "{{ git_private_repos }}"
 
-- name: Create symbolic links to Git repositories
-  become: yes
-  become_user: "{{ user }}"
-  ansible.builtin.file:
-    src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ git_public_repos [1] }}'
-    dest: '{{ home_dir}}/{{ user }}/{{ dirs[1] }}/{{ git_public_repos [1] }}'
-    state: link
+# - name: Create symbolic links to Git repositories
+#   become: yes
+#   become_user: "{{ user }}"
+#   ansible.builtin.file:
+#     src: '{{ home_dir }}/{{ user }}/{{ dirs[0] }}/{{ git_public_repos [1] }}'
+#     dest: '{{ home_dir}}/{{ user }}/{{ dirs[1] }}/{{ git_public_repos [1] }}'
+#     state: link

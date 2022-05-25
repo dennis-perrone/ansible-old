@@ -1,2 +1,28 @@
 ---
 # defaults file for common
+
+# Home Assistant
+home_assistant_repo: ghcr.io/home-assistant/home-assistant:stable
+
+# Pihole
+pihole_repo: pihole/pihole
+pihole_ports:
+  - "53:53/tcp"
+  - "53:53/udp"
+  - "67:67/udp"
+  - "80:80/tcp"
+  - "443:443/tcp"
+pihole_env:
+  - "TZ: 'America/New_York'"
+pihole_volumes:
+  - './etc-pihole/:/etc/pihole/'
+  - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+pihole_cap_add: NET_ADMIN
+
+# Unifi
+unifi_repo: ghcr.io/linuxserver/unifi-controller
+
+# Web Server
+httpd_repo: "docker.io/library/httpd:latest"
+
+
