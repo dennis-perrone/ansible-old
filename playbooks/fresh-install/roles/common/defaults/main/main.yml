@@ -53,6 +53,7 @@ install_packages:
   - xbindkeys
   - zathura
   - zathura-pdf-mupdf
+  - zsh
 
 # Package Groups: Install
 virt_packages:
